@@ -1,0 +1,826 @@
+{
+  "name": "disparo_qrCode",
+  "nodes": [
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "id": "4c238007-15d4-4aaf-a33a-8e19d616ec89",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        620,
+        -280
+      ],
+      "webhookId": "96359710-3251-46a9-b30b-606b12cc066b"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evoapi.evilasio.online/message/sendText/bot_ia",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0D3F741850B4-4925-B7FF-96771486D040"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": \"{{ $json.Telefone }}\",\n  \"text\": \"*🎉 Convite Especial - Hackathon Smartspace 🎉*\\n\\nOlá *{{ $json.Nome }}*, você está convidado para o nosso evento exclusivo!\\n\\n📅 *Data:* 15 de Abril\\n📍 *Local:* Smartspace\\n\\nPor favor, confirme sua presença respondendo com:\\n\\n✅ *SIM* – Confirmar presença\\n❌ *NÃO* – Não poderei ir\\n\\nContamos com você! 🚀\"\n}\n\n\n",
+        "options": {}
+      },
+      "id": "67623118-b5d5-404b-9186-ed8a96355bbd",
+      "name": "Evolution 2.1.0 - Texto",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -280
+      ],
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        620,
+        -420
+      ],
+      "id": "63bd0615-2b46-49b9-a549-f38eaf4ee35e",
+      "name": "Finalizador"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 451021369,
+          "mode": "list",
+          "cachedResultName": "disparo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ/edit#gid=451021369"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status de envio": "Error",
+            "row_number": "={{ $('base').item.json.row_number }}",
+            "Status Evento": "Error"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status de envio",
+              "displayName": "Status de envio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status Evento",
+              "displayName": "Status Evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "41d68ecf-9035-426f-beac-a68a17942bde",
+      "name": "Não Enviado",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        -240
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "PAqomY7ezS7eW0KK",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "bbc1cb80-94bb-441c-b063-ff7d8cd0fa54",
+      "name": "Repetidor",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        440,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 451021369,
+          "mode": "list",
+          "cachedResultName": "disparo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ/edit#gid=451021369"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status de envio": "Enviado",
+            "row_number": "={{ $('base').item.json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Telefone",
+              "displayName": "Telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status de envio",
+              "displayName": "Status de envio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status Evento",
+              "displayName": "Status Evento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "0a2dedde-1eb0-4ca5-8bfd-13ceadc1b708",
+      "name": "Enviado",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        1120,
+        -420
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "PAqomY7ezS7eW0KK",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 451021369,
+          "mode": "list",
+          "cachedResultName": "disparo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rdS8h2djaKFNlouvbHDt3aFjUD9lD8jcAaj5PianiIQ/edit#gid=451021369"
+        },
+        "options": {}
+      },
+      "id": "af41c83b-44db-49bf-b586-71051d56778a",
+      "name": "base",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        260,
+        -280
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "PAqomY7ezS7eW0KK",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c5e5cd64-dc1b-46d1-ab62-54bdd9be7416",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        120,
+        120
+      ],
+      "id": "33b1996a-8cad-463b-898b-fe5c9d84f6f9",
+      "name": "Webhook",
+      "webhookId": "c5e5cd64-dc1b-46d1-ab62-54bdd9be7416"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8f406170-01fe-407e-806e-ce610d6adffc",
+              "leftValue": "={{ $json.body.data.message.conversation }}",
+              "rightValue": "sim",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        120
+      ],
+      "id": "27636191-a76d-4b03-82ab-f3c6cdf867bb",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"codigo_acesso\": \"{{ $json.body.data.key.remoteJid }}-{{ Date.now() }}\",\n  \"push_name\": \"{{ $json.body.data.pushName }}\",\n  \"remote_jid\": \"{{ $json.body.data.key.remoteJid }}\"\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        120
+      ],
+      "id": "3a8e7a5e-7ef4-4637-afd6-0fd5ea7e9dab",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://evilasioferreira.github.io/qr-code/?id={{$json.codigo_acesso}}&nome={{$json.push_name}}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        120
+      ],
+      "id": "c159f9b2-5e88-43f8-834b-d63c62c1de91",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "id": "642e619f-a01d-4333-893b-c7acf2a10427",
+      "name": "10s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1460,
+        -260
+      ],
+      "webhookId": "0f3aa28f-a536-43e8-9ce9-c7862a26454a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "91a6eb95-854f-4b65-8970-262841425626",
+              "name": "qr_url",
+              "value": "=https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://evilasioferreira.github.io/qr-code/?id={{$json.codigo_acesso}}&nome={{$json.push_name}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        120
+      ],
+      "id": "5fc1cc93-a9e3-438a-baf9-c816b7582e90",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "content": "## Disparo",
+        "height": 520,
+        "width": 1780
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        40,
+        -480
+      ],
+      "typeVersion": 1,
+      "id": "1d90cb3a-9ec9-47a7-8906-eca7b9e6671f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Envio QR-Code",
+        "height": 320,
+        "width": 1780,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        40,
+        60
+      ],
+      "typeVersion": 1,
+      "id": "246748f7-09c2-4656-a1e1-3264a89f8ccf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        -280
+      ],
+      "id": "4c5cd4c9-0eb2-44d4-bc80-d49843364c66",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "html": "<html>\n  <body style=\"font-family: sans-serif; text-align: center;\">\n    <br>\n    <br>\n    <h2>Convite para o Evento</h2>\n    <p><strong>Convidado(a):</strong> {{ $('Edit Fields').item.json.push_name }}</p>\n    <p><strong>Telefone:</strong> {{ $('Edit Fields').item.json.remote_jid.split('@')\n [0]}}</p>\n    <p>Apresente o QR Code abaixo para acessar o evento:</p>\n    <img src=\"{{ $json.qr_url }}\" width=\"150\" height=\"150\" />\n    <h6>pessoal e intransferível</h6>\n  </body>\n</html>\n\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        980,
+        120
+      ],
+      "id": "a6475a58-db64-4bc6-a6c4-d36b8d9d484b",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pdfshift.io/v3/convert/pdf",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "authorization",
+              "value": "basic sk_908c04bfe25838c57822da9c9482e51ddd403418"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "source",
+              "value": "={{ $json.html }}"
+            },
+            {
+              "name": "landscape",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "convite.pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1160,
+        120
+      ],
+      "id": "986b7a29-239c-48fa-ab30-f55142ebc2f1",
+      "name": "htmlEmPdf"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "convite.pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        120
+      ],
+      "id": "cea4cc1d-b8f3-4e1d-b540-f549825e0689",
+      "name": "Extract"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-document",
+        "instanceName": "={{ $('Webhook').item.json.body.instance }}",
+        "remoteJid": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "media": "={{ $json.data }}",
+        "caption": "Apresente na entrada!",
+        "fileName": "convite.pdf",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        120
+      ],
+      "id": "bd6d81be-2f7d-4e02-8989-afc3382e6051",
+      "name": "Evolution API",
+      "credentials": {
+        "evolutionApi": {
+          "id": "oh1asNvkurnpHSZG",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "noiton.evilasio.online",
+            "user-agent": "axios/1.7.7",
+            "content-length": "896",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "noiton.evilasio.online",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "2be35dee2a5b",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "bot_ia",
+            "data": {
+              "key": {
+                "remoteJid": "558598286557@s.whatsapp.net",
+                "fromMe": false,
+                "id": "C2A6D349860D47CDEDB67165EC57B057"
+              },
+              "pushName": "Evilásio Ferreira",
+              "message": {
+                "conversation": "Sim",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "IPEii5YptwYPKw==",
+                    "senderTimestamp": "1744056568",
+                    "recipientKeyHash": "RUffpi+ooi433w==",
+                    "recipientTimestamp": "1744300345"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "N6yDU/U91dFVlsx2dwG1QieXXLRzBsNR5s+AX1t8kqo="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1744300827,
+              "instanceId": "0e45887b-0de0-4450-8c37-50dd542e5a9a",
+              "source": "android"
+            },
+            "destination": "https://noiton.evilasio.online/webhook/c5e5cd64-dc1b-46d1-ab62-54bdd9be7416",
+            "date_time": "2025-04-10T13:00:27.113Z",
+            "sender": "558599158339@s.whatsapp.net",
+            "server_url": "https://evoapi.evilasio.online",
+            "apikey": "0D3F741850B4-4925-B7FF-96771486D040"
+          },
+          "webhookUrl": "https://noiton.evilasio.online/webhook/c5e5cd64-dc1b-46d1-ab62-54bdd9be7416",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Evolution 2.1.0 - Texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution 2.1.0 - Texto": {
+      "main": [
+        [
+          {
+            "node": "Enviado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não Enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não Enviado": {
+      "main": [
+        [
+          {
+            "node": "10s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repetidor": {
+      "main": [
+        [
+          {
+            "node": "Finalizador",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviado": {
+      "main": [
+        [
+          {
+            "node": "10s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base": {
+      "main": [
+        [
+          {
+            "node": "Repetidor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10s": {
+      "main": [
+        [
+          {
+            "node": "Repetidor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "htmlEmPdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "htmlEmPdf": {
+      "main": [
+        [
+          {
+            "node": "Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract": {
+      "main": [
+        [
+          {
+            "node": "Evolution API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d911c4f3-be67-4af4-bda4-ca7fb7460903",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c3e32651c53c4f90284fa8f787a8ae933348647f3f850e837bd6e72e5fb04f70"
+  },
+  "id": "ucw2J7URitwvvt8K",
+  "tags": [
+    {
+      "createdAt": "2025-02-20T11:38:11.306Z",
+      "updatedAt": "2025-02-20T11:38:11.306Z",
+      "id": "Xj53IfBSxC6HcCPe",
+      "name": "Desenvolvimento"
+    }
+  ]
+}
